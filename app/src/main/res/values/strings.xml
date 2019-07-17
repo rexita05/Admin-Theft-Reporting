@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Admin</string>
+    <string name="title_activity_menu">User</string>
+    <string name="title_home">Dashboard</string>
+    <string name="title_Tambah_kecamatan">Add Kecamatan</string>
+    <string name="title_account">Account</string>
+    <string name="title_bobot">Bobot</string>
+    <string name="login_email_hint">Email Hint</string>
+    <string name="login_password_hint">Password Hint</string>
+    <string name="login_signup_hint">Signup Hint</string>
+
+</resources>

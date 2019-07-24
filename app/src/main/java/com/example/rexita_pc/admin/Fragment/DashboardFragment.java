@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,7 @@ public class DashboardFragment extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<DataPencurian> dataPencurianList;
+    private int questionCount = 0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -46,15 +48,16 @@ public class DashboardFragment extends Fragment {
         return rootView;
     }
 
+    DataPencurian dataPencurian;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        databaseReference.child("data_pencurian").orderByChild("kejadian").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("data_pencurian").orderByChild("kejadian")  .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dataPencurianList = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    DataPencurian dataPencurian= postSnapshot.getValue(DataPencurian.class);
+                    dataPencurian= postSnapshot.getValue(DataPencurian.class);
                     dataPencurian.setKey(postSnapshot.getKey());
                     dataPencurianList.add(dataPencurian);
                 }

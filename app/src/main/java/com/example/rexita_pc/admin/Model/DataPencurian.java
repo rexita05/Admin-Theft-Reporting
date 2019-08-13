@@ -12,6 +12,7 @@ public class DataPencurian implements Serializable  {
     private String Waktu;
     private String Tanggal;
     private String Kejadian;
+    private String Korban;
     private String Lokasi;
     private String Kecamatan;
     private String Kerugian;
@@ -22,11 +23,12 @@ public class DataPencurian implements Serializable  {
     public DataPencurian() {
     }
 
-    public DataPencurian(String waktu, String tanggal, String kejadian, String lokasi, String kecamatan,
+    public DataPencurian(String waktu, String tanggal, String kejadian, String korban, String lokasi, String kecamatan,
                          String kerugian,String interval, int status, String key) {
         Waktu = waktu;
         Tanggal = tanggal;
         Kejadian = kejadian;
+        Korban = korban;
         Lokasi = lokasi;
         Kecamatan = kecamatan;
         Kerugian = kerugian;
@@ -57,6 +59,14 @@ public class DataPencurian implements Serializable  {
 
     public void setKejadian(String kejadian) {
         Kejadian = kejadian;
+    }
+
+    public String getKorban() {
+        return Korban;
+    }
+
+    public void setKorban(String korban) {
+        Korban = korban;
     }
 
     public String getLokasi() {

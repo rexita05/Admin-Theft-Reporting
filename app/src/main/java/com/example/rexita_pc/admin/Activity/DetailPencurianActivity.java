@@ -14,10 +14,15 @@ import android.widget.Toast;
 
 import com.example.rexita_pc.admin.Model.BobotKerugian;
 import com.example.rexita_pc.admin.Model.DataPencurian;
+import com.example.rexita_pc.admin.Model.mUser;
 import com.example.rexita_pc.admin.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -34,11 +39,16 @@ public class DetailPencurianActivity extends AppCompatActivity {
     @BindView(R.id.txtLokasi) TextView txtLokasi;
     @BindView(R.id.txtKecamatan) TextView txtKecamatan;
     @BindView(R.id.txtKerugian) TextView txtKerugian;
+    @BindView(R.id.txtKorban) TextView txtKorban;
     @BindView(R.id.txtTanggal) TextView txtTanggal;
     @BindView(R.id.btnKonfirmasi) Button btnKonfirmasi;
     @BindView(R.id.btnHapus) Button btnHapus;
+
+    @BindView(R.id.txtPelapor) TextView txtPelapor;
+    @BindView(R.id.txtAlamat) TextView txtAlamat;
+
     DataPencurian dataPencurian;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +64,7 @@ public class DetailPencurianActivity extends AppCompatActivity {
             txtWaktu.setText("Waktu : "+dataPencurian.getWaktu());
             txtTanggal.setText("Tanggal : "+dataPencurian.getTanggal());
             txtKejadian.setText("Kejadian : "+dataPencurian.getKejadian());
+            txtKorban.setText("Korban             : "+dataPencurian.getKorban());
             txtLokasi.setText("Lokasi : "+dataPencurian.getLokasi());
             txtKecamatan.setText("Kecamatan : "+dataPencurian.getKecamatan());
             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
@@ -61,6 +72,7 @@ public class DetailPencurianActivity extends AppCompatActivity {
             DecimalFormat decimalFormat = new DecimalFormat("Rp ###,###,###,###", symbols);
             String prezzo = decimalFormat.format(Integer.parseInt(dataPencurian.getKerugian()));
             txtKerugian.setText("Kerugian            : "+prezzo);
+            dataPelapor();
         }
 
         btnHapus.setOnClickListener(new View.OnClickListener() {
@@ -121,5 +133,26 @@ public class DetailPencurianActivity extends AppCompatActivity {
 
     public static Intent getActIntent(Activity activity){
         return new Intent(activity, DetailPencurianActivity.class);
+    }
+
+    public void dataPelapor(){
+        databaseUser = FirebaseDatabase.getInstance().getReference("user");
+        databaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot user : dataSnapshot.getChildren()){
+                        mUser data = user.getValue(mUser.class);
+                        if  (data != null){
+                            txtPelapor.setText("Pelapor : "+data.getName());
+                            txtAlamat.setText("Alamat : "+data.getAddress());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }
